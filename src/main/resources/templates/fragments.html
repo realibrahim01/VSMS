@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<body>
+<header class="topbar" th:fragment="topbar">
+    <nav class="nav">
+        <a class="brand" th:href="@{/}">VSMS</a>
+        <div class="links">
+            <a th:href="@{/}">Dashboard</a>
+            <a th:href="@{/customers}">Customers</a>
+            <a th:href="@{/vehicles}">Vehicles</a>
+            <a th:href="@{/bookings}">Bookings</a>
+            <a th:href="@{/history}">History</a>
+            <form th:action="@{/logout}" method="post">
+                <button class="link-button" type="submit">Logout</button>
+            </form>
+        </div>
+    </nav>
+</header>
+</body>
+</html>

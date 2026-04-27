@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Customers | VSMS</title>
+    <link rel="stylesheet" th:href="@{/css/app.css}">
+</head>
+<body>
+<div th:replace="~{fragments :: topbar}"></div>
+<main class="container">
+    <section class="page-title">
+        <div>
+            <h1>Customers</h1>
+            <p>Create, search, and manage customer records.</p>
+        </div>
+    </section>
+    <div class="flash" th:if="${success}" th:text="${success}"></div>
+
+    <section class="split">
+        <article class="card">
+            <h2>Add Customer</h2>
+            <form th:action="@{/customers}" method="post" class="form-grid">
+                <label>Name <input type="text" name="name" required></label>
+                <label>Phone <input type="text" name="phone" required></label>
+                <label>Email <input type="email" name="email"></label>
+                <label>Address <textarea name="address"></textarea></label>
+                <button class="button" type="submit">Save Customer</button>
+            </form>
+        </article>
+
+        <article class="card">
+            <form class="toolbar" th:action="@{/customers}" method="get">
+                <input type="search" name="search" placeholder="Search customers" th:value="${search}">
+                <button class="button secondary" type="submit">Search</button>
+                <a class="button secondary" th:href="@{/customers}">Reset</a>
+            </form>
+            <table>
+                <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Phone</th>
+                    <th>Email</th>
+                    <th>Vehicles</th>
+                    <th>Action</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="customer : ${customers}">
+                    <td>
+                        <strong th:text="${customer.name}">Name</strong><br>
+                        <small th:text="${customer.address}">Address</small>
+                    </td>
+                    <td th:text="${customer.phone}">Phone</td>
+                    <td th:text="${customer.email}">Email</td>
+                    <td th:text="${customer.vehicleCount}">0</td>
+                    <td>
+                        <form th:action="@{/customers/{id}/delete(id=${customer.id})}" method="post">
+                            <button class="button danger" type="submit">Delete</button>
+                        </form>
+                    </td>
+                </tr>
+                <tr th:if="${#lists.isEmpty(customers)}">
+                    <td colspan="5">No customers found.</td>
+                </tr>
+                </tbody>
+            </table>
+        </article>
+    </section>
+</main>
+</body>
+</html>

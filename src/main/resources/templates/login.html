@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login | VSMS</title>
+    <link rel="stylesheet" th:href="@{/css/app.css}">
+</head>
+<body>
+<main class="login-shell">
+    <section class="card login-card">
+        <div class="page-title">
+            <div>
+                <h1>VSMS Login</h1>
+                <p>Use admin/admin123 or user/user123</p>
+            </div>
+        </div>
+        <div class="flash" th:if="${param.error}">Invalid username or password.</div>
+        <div class="flash" th:if="${param.logout}">You have been logged out.</div>
+        <form th:action="@{/login}" method="post" class="form-grid">
+            <label>Username
+                <input type="text" name="username" required autofocus>
+            </label>
+            <label>Password
+                <input type="password" name="password" required>
+            </label>
+            <button class="button" type="submit">Sign in</button>
+        </form>
+    </section>
+</main>
+</body>
+</html>

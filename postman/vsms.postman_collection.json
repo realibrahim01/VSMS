@@ -1,0 +1,204 @@
+{
+  "info": {
+    "name": "Vehicle Service Management System (VSMS)",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:8080"
+    }
+  ],
+  "item": [
+    {
+      "name": "Customers",
+      "item": [
+        {
+          "name": "List Customers",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/customers"
+          }
+        },
+        {
+          "name": "Create Customer",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Amit Sharma\",\n  \"phone\": \"+91 9876543210\",\n  \"email\": \"amit@example.com\",\n  \"address\": \"Bengaluru\"\n}"
+            },
+            "url": "{{baseUrl}}/api/customers"
+          }
+        },
+        {
+          "name": "Update Customer",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Amit Sharma\",\n  \"phone\": \"+91 9000000000\",\n  \"email\": \"amit@example.com\",\n  \"address\": \"Bengaluru, Karnataka\"\n}"
+            },
+            "url": "{{baseUrl}}/api/customers/1"
+          }
+        },
+        {
+          "name": "Delete Customer",
+          "request": {
+            "method": "DELETE",
+            "url": "{{baseUrl}}/api/customers/1"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Vehicles",
+      "item": [
+        {
+          "name": "List Vehicles",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/vehicles"
+          }
+        },
+        {
+          "name": "Create Vehicle",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"customerId\": 1,\n  \"brand\": \"Toyota\",\n  \"model\": \"Innova\",\n  \"registrationNumber\": \"KA01AB1234\"\n}"
+            },
+            "url": "{{baseUrl}}/api/vehicles"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Bookings",
+      "item": [
+        {
+          "name": "List Bookings",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/bookings"
+          }
+        },
+        {
+          "name": "Create Booking",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"vehicleId\": 1,\n  \"serviceDate\": \"2026-05-05\",\n  \"serviceType\": \"GENERAL_SERVICE\",\n  \"status\": \"PENDING\"\n}"
+            },
+            "url": "{{baseUrl}}/api/bookings"
+          }
+        },
+        {
+          "name": "Confirm Booking",
+          "request": {
+            "method": "PATCH",
+            "url": "{{baseUrl}}/api/bookings/1/status?status=CONFIRMED"
+          }
+        },
+        {
+          "name": "Complete Booking",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"description\": \"General service, oil filter replacement, brake inspection\",\n  \"cost\": 4500.00\n}"
+            },
+            "url": "{{baseUrl}}/api/bookings/1/complete"
+          }
+        }
+      ]
+    },
+    {
+      "name": "History",
+      "item": [
+        {
+          "name": "List History",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/history"
+          }
+        },
+        {
+          "name": "Create History",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"vehicleId\": 1,\n  \"description\": \"Battery replacement\",\n  \"serviceDate\": \"2026-04-22\",\n  \"cost\": 6200.00\n}"
+            },
+            "url": "{{baseUrl}}/api/history"
+          }
+        },
+        {
+          "name": "Download Invoice PDF",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/invoices/history/1/pdf"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Dashboard and Reminders",
+      "item": [
+        {
+          "name": "Dashboard",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/dashboard"
+          }
+        },
+        {
+          "name": "Reminders",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/reminders?days=30"
+          }
+        }
+      ]
+    }
+  ]
+}

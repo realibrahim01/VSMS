@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vehicles | VSMS</title>
+    <link rel="stylesheet" th:href="@{/css/app.css}">
+</head>
+<body>
+<div th:replace="~{fragments :: topbar}"></div>
+<main class="container">
+    <section class="page-title">
+        <div>
+            <h1>Vehicles</h1>
+            <p>Link vehicles to customers and track predicted service dates.</p>
+        </div>
+    </section>
+    <div class="flash" th:if="${success}" th:text="${success}"></div>
+
+    <section class="split">
+        <article class="card">
+            <h2>Add Vehicle</h2>
+            <form th:action="@{/vehicles}" method="post" class="form-grid">
+                <label>Customer
+                    <select name="customerId" required>
+                        <option value="">Select customer</option>
+                        <option th:each="customer : ${customers}" th:value="${customer.id}" th:text="${customer.name}">Customer</option>
+                    </select>
+                </label>
+                <label>Brand <input type="text" name="brand" required></label>
+                <label>Model <input type="text" name="model" required></label>
+                <label>Registration Number <input type="text" name="registrationNumber" required></label>
+                <button class="button" type="submit">Save Vehicle</button>
+            </form>
+        </article>
+
+        <article class="card">
+            <form class="toolbar" th:action="@{/vehicles}" method="get">
+                <input type="search" name="search" placeholder="Search vehicles" th:value="${search}">
+                <button class="button secondary" type="submit">Search</button>
+                <a class="button secondary" th:href="@{/vehicles}">Reset</a>
+            </form>
+            <table>
+                <thead>
+                <tr>
+                    <th>Registration</th>
+                    <th>Vehicle</th>
+                    <th>Customer</th>
+                    <th>Next service</th>
+                    <th>Action</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="vehicle : ${vehicles}">
+                    <td><span class="pill" th:text="${vehicle.registrationNumber}">REG</span></td>
+                    <td th:text="${vehicle.brand + ' ' + vehicle.model}">Vehicle</td>
+                    <td th:text="${vehicle.customerName}">Customer</td>
+                    <td th:text="${vehicle.predictedNextServiceDate ?: 'No service history'}">Date</td>
+                    <td>
+                        <form th:action="@{/vehicles/{id}/delete(id=${vehicle.id})}" method="post">
+                            <button class="button danger" type="submit">Delete</button>
+                        </form>
+                    </td>
+                </tr>
+                <tr th:if="${#lists.isEmpty(vehicles)}">
+                    <td colspan="5">No vehicles found.</td>
+                </tr>
+                </tbody>
+            </table>
+        </article>
+    </section>
+</main>
+</body>
+</html>

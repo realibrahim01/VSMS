@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard | VSMS</title>
+    <link rel="stylesheet" th:href="@{/css/app.css}">
+</head>
+<body>
+<div th:replace="~{fragments :: topbar}"></div>
+<main class="container">
+    <section class="page-title">
+        <div>
+            <h1>Dashboard</h1>
+            <p>Service center activity at a glance.</p>
+        </div>
+    </section>
+
+    <section class="grid">
+        <article class="card metric"><span>Customers</span><strong th:text="${dashboard.totalCustomers}">0</strong></article>
+        <article class="card metric"><span>Vehicles</span><strong th:text="${dashboard.totalVehicles}">0</strong></article>
+        <article class="card metric"><span>Total bookings</span><strong th:text="${dashboard.totalBookings}">0</strong></article>
+        <article class="card metric"><span>Pending bookings</span><strong th:text="${dashboard.pendingBookings}">0</strong></article>
+        <article class="card metric"><span>Completed bookings</span><strong th:text="${dashboard.completedBookings}">0</strong></article>
+        <article class="card metric"><span>Revenue</span><strong th:text="${'INR ' + dashboard.totalRevenue}">INR 0</strong></article>
+    </section>
+
+    <section class="card section">
+        <div class="page-title">
+            <div>
+                <h1>Service Reminders</h1>
+                <p>Vehicles predicted to need service in the next 30 days.</p>
+            </div>
+        </div>
+        <table>
+            <thead>
+            <tr>
+                <th>Vehicle</th>
+                <th>Customer</th>
+                <th>Last service</th>
+                <th>Predicted next service</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="reminder : ${reminders}">
+                <td th:text="${reminder.registrationNumber}">REG</td>
+                <td th:text="${reminder.customerName}">Customer</td>
+                <td th:text="${reminder.lastServiceDate ?: 'No history'}">Date</td>
+                <td><span class="pill" th:text="${reminder.predictedNextServiceDate}">Date</span></td>
+            </tr>
+            <tr th:if="${#lists.isEmpty(reminders)}">
+                <td colspan="4">No reminders due soon.</td>
+            </tr>
+            </tbody>
+        </table>
+    </section>
+</main>
+</body>
+</html>

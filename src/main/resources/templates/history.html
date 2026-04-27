@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Service History | VSMS</title>
+    <link rel="stylesheet" th:href="@{/css/app.css}">
+</head>
+<body>
+<div th:replace="~{fragments :: topbar}"></div>
+<main class="container">
+    <section class="page-title">
+        <div>
+            <h1>Service History</h1>
+            <p>Completed services, invoices, and next service predictions.</p>
+        </div>
+    </section>
+    <div class="flash" th:if="${success}" th:text="${success}"></div>
+
+    <section class="split">
+        <article class="card">
+            <h2>Add History</h2>
+            <form th:action="@{/history}" method="post" class="form-grid">
+                <label>Vehicle
+                    <select name="vehicleId" required>
+                        <option value="">Select vehicle</option>
+                        <option th:each="vehicle : ${vehicles}"
+                                th:value="${vehicle.id}"
+                                th:text="${vehicle.registrationNumber + ' - ' + vehicle.customerName}">Vehicle</option>
+                    </select>
+                </label>
+                <label>Description <textarea name="description" required></textarea></label>
+                <label>Service Date <input type="date" name="serviceDate" required></label>
+                <label>Cost <input type="number" min="0" step="0.01" name="cost" required></label>
+                <button class="button" type="submit">Save History</button>
+            </form>
+        </article>
+
+        <article class="card">
+            <form class="toolbar" th:action="@{/history}" method="get">
+                <select name="vehicleId">
+                    <option value="">All vehicles</option>
+                    <option th:each="vehicle : ${vehicles}"
+                            th:value="${vehicle.id}"
+                            th:text="${vehicle.registrationNumber}"
+                            th:selected="${selectedVehicleId == vehicle.id}">Vehicle</option>
+                </select>
+                <button class="button secondary" type="submit">Filter</button>
+                <a class="button secondary" th:href="@{/history}">Reset</a>
+            </form>
+            <table>
+                <thead>
+                <tr>
+                    <th>Vehicle</th>
+                    <th>Customer</th>
+                    <th>Description</th>
+                    <th>Date</th>
+                    <th>Cost</th>
+                    <th>Next service</th>
+                    <th>Actions</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="history : ${histories}">
+                    <td th:text="${history.registrationNumber}">REG</td>
+                    <td th:text="${history.customerName}">Customer</td>
+                    <td th:text="${history.description}">Description</td>
+                    <td th:text="${history.serviceDate}">Date</td>
+                    <td th:text="${'INR ' + history.cost}">Cost</td>
+                    <td th:text="${history.predictedNextServiceDate ?: 'Pending more data'}">Date</td>
+                    <td>
+                        <div class="table-actions">
+                            <a class="button secondary"
+                               th:href="@{/api/invoices/history/{id}/pdf(id=${history.id})}">Invoice</a>
+                            <form th:action="@{/history/{id}/delete(id=${history.id})}" method="post">
+                                <button class="button danger" type="submit">Delete</button>
+                            </form>
+                        </div>
+                    </td>
+                </tr>
+                <tr th:if="${#lists.isEmpty(histories)}">
+                    <td colspan="7">No service history found.</td>
+                </tr>
+                </tbody>
+            </table>
+        </article>
+    </section>
+</main>
+</body>
+</html>
