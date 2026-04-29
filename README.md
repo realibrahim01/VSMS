@@ -2,6 +2,8 @@
 
 VSMS is a complete Java Spring Boot project for managing vehicle service customers, vehicles, service bookings, service history, reminders, and PDF invoices. It includes REST APIs and a Thymeleaf web UI.
 
+This project can also be presented as a **DBMS-focused academic project**, where the MySQL database design is the main subject and the Spring Boot application acts as the interface layer.
+
 ## Tech Stack
 
 - Java 17
@@ -12,6 +14,28 @@ VSMS is a complete Java Spring Boot project for managing vehicle service custome
 - Spring Security form login
 - Lombok
 - OpenPDF for invoice generation
+
+## DBMS-Focused Assets
+
+If you want to present VSMS mainly as a DBMS project, use these files first:
+
+- `database/schema.sql`
+- `database/advanced_dbms_objects.sql`
+- `database/sample_data.sql`
+- `docs/ER_AND_NORMALIZATION.md`
+- `docs/DBMS_QUERY_SET.md`
+- `docs/DBMS_PROJECT_GUIDE.md`
+
+These files highlight:
+
+- relational schema design
+- keys and constraints
+- normalization
+- indexing
+- SQL views
+- stored procedures
+- triggers
+- analytical queries
 
 ## Step-by-Step Backend Setup
 
@@ -96,6 +120,18 @@ See `docs/API_ENDPOINTS.md`.
 
 Import `postman/vsms.postman_collection.json` into Postman for ready-made API requests.
 
+## DBMS Presentation Order
+
+For a DBMS viva or project demonstration, present the system in this order:
+
+1. ER diagram
+2. Relational schema
+3. Primary keys and foreign keys
+4. Normalization
+5. SQL objects: views, procedures, triggers
+6. Query outputs and reports
+7. Java/Spring Boot frontend as the application interface
+
 ## Running Tests
 
 ```bash
@@ -106,7 +142,7 @@ The test profile uses an in-memory H2 database configured in `src/test/resources
 
 ## Notes for Production Hardening
 
-- Replace in-memory users with database-backed users.
+- Replace in-memory users with database-backed users if you later need full user lifecycle management.
 - Move credentials to environment variables or a secret manager.
 - Add JWT if the REST API will be consumed by external clients.
 - Set `spring.jpa.hibernate.ddl-auto=validate` and use Flyway or Liquibase migrations.
